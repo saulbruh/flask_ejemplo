@@ -1,9 +1,10 @@
-from flask import Flask, render_template,request, redirect, url_for, jsonify # type: ignore
+from flask import Flask, render_template,request, redirect, url_for, jsonify, session # type: ignore
 from flask_sqlalchemy import SQLAlchemy # type: ignore
 import mariadb # type: ignore
 import hashlib
 
 app = Flask(__name__)
+app.secret_key = "1234"
 
 @app.route('/')
 def index():
@@ -47,9 +48,37 @@ def registro():
 
     return render_template('registro.html')
 
-@app.route('/login', methods=['GET'])
+@app.route('/login', methods=['GET', 'POST'])
 def login():
+    if request.method == 'POST':
+        correo = request.form['correo']
+        contraseña = request.form['contraseña']
+
+        conn = get_db_connection()
+        cursor = conn.cursor()
+
+        # Obtener la contraseña almacenada de la base de datos
+        cursor.execute("SELECT id, hashed_password FROM usuarios WHERE correo_electronico = ?", (correo,))
+        user = cursor.fetchone()
+        conn.close()
+
+        if user:
+            usuario_id, hashed_password = user
+            # Comparar la contraseña ingresada con la almacenada
+            if contraseña == hashed_password:
+                session['user_id'] = usuario_id  # Guardar usuario en sesión
+                return redirect(url_for('index'))
+            else:
+                return "Error: Contraseña incorrecta"
+        else:
+            return "Error: Usuario no encontrado"
+
     return render_template('login.html')
+
+@app.route('/logout')
+def logout():
+    session.pop('user_id', None)  # Eliminar usuario de la sesión
+    return redirect(url_for('login'))
 
 
 #Conexion a MariaDB sin ORM
