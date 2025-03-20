@@ -1,6 +1,7 @@
-from flask import Flask, render_template,jsonify # type: ignore
+from flask import Flask, render_template,request, redirect, url_for, jsonify # type: ignore
 from flask_sqlalchemy import SQLAlchemy # type: ignore
 import mariadb # type: ignore
+import hashlib
 
 app = Flask(__name__)
 
@@ -18,6 +19,34 @@ def index():
     ]
 
     return render_template('index.html', productos=productos_json)
+
+@app.route('/registro', methods=['GET', 'POST'])
+def registro():
+    if request.method == 'POST':
+        nombre = request.form['nombre']
+        apellido = request.form['apellido']
+        correo_electronico = request.form['correo']
+        hashed_password = request.form['contraseña']
+
+        # Hashear la contraseña antes de almacenarla
+        #hashed_password = hashlib.sha256(hashed_password.encode()).hexdigest()
+
+        conn = get_db_connection()
+        cursor = conn.cursor()
+
+        try:
+            cursor.execute("INSERT INTO usuarios (nombre, apellido, correo_electronico, hashed_password) VALUES (?, ?, ?, ?)", 
+                           (nombre, apellido, correo_electronico, hashed_password))
+            conn.commit()
+        except mariadb.IntegrityError:
+            return "Error: El correo ya está registrado."
+        finally:
+            conn.close()
+
+        return redirect(url_for('index'))
+
+    return render_template('registro.html')
+
 
 #Conexion a MariaDB sin ORM
 def get_db_connection():
