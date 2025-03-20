@@ -1,4 +1,4 @@
-from flask import Flask, render_template,request, redirect, url_for, jsonify, session # type: ignore
+from flask import Flask, render_template,request, redirect, url_for, jsonify, session, flash # type: ignore
 from flask_sqlalchemy import SQLAlchemy # type: ignore
 import mariadb # type: ignore
 import hashlib
@@ -67,11 +67,12 @@ def login():
             # Comparar la contraseña ingresada con la almacenada
             if contraseña == hashed_password:
                 session['user_id'] = usuario_id  # Guardar usuario en sesión
+                flash("Inicio de sesión exitoso", "success")  # Mensaje de éxito
                 return redirect(url_for('index'))
             else:
-                return "Error: Contraseña incorrecta"
+                flash("Error: Contraseña incorrecta", "danger")  
         else:
-            return "Error: Usuario no encontrado"
+            flash("Error: Usuario no encontrado", "danger")
 
     return render_template('login.html')
 

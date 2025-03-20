@@ -18,4 +18,14 @@
 </form>
 
 <p>¿No tienes cuenta? <a href="/registro">Regístrate aquí</a></p>
+
+{% with messages = get_flashed_messages(with_categories=true) %}
+  {% if messages %}
+    <div>
+      {% for category, message in messages %}
+        <p class="{{ category }}">{{ message }}</p>
+      {% endfor %}
+    </div>
+  {% endif %}
+{% endwith %}
 {% endblock %}
