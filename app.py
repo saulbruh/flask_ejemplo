@@ -47,6 +47,10 @@ def registro():
 
     return render_template('registro.html')
 
+@app.route('/login', methods=['GET'])
+def login():
+    return render_template('login.html')
+
 
 #Conexion a MariaDB sin ORM
 def get_db_connection():

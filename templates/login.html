@@ -1,20 +1,11 @@
 {% extends 'base.html' %}
 
 {% block head %}
-<h1>Registro de Usuario</h1>
+<h1>Iniciar Sesión</h1>
 {% endblock %}
 
-
 {% block body %}
-<form action="/registro" method="POST">
-    <label for="nombre">Nombre:</label>
-    <input type="text" id="nombre" name="nombre" required>
-    <br>
-
-    <label for="apellido">Apellido:</label>
-    <input type="text" id="apellido" name="apellido" required>
-    <br>
-
+<form action="/login" method="POST">
     <label for="correo">Correo Electrónico:</label>
     <input type="email" id="correo" name="correo" required>
     <br>
@@ -23,6 +14,8 @@
     <input type="password" id="contraseña" name="contraseña" required>
     <br>
 
-    <button type="submit">Registrarse</button>
+    <button type="submit">Iniciar Sesión</button>
 </form>
+
+<p>¿No tienes cuenta? <a href="/registro">Regístrate aquí</a></p>
 {% endblock %}
