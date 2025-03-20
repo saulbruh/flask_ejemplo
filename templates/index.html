@@ -1,27 +1,25 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Lista de Productos</title>
-</head>
-<body>
-    <h1>Lista de Productos</h1>
-    <ul>
-        {% for producto in productos %}
-            <li>
-                <h2>{{ producto.nombre }}</h2>
-                <p>{{ producto.descripcion }}</p>
-                <p>Precio: ${{ producto.precio }}</p>
-                <p>Categoría: {{ producto.categoria }}</p>
-                <p>Stock: {{ producto.stock }}</p>
-                {% if producto.imagen %}
-                    <img src="{{ url_for('static', filename=producto.imagen) }}" alt="{{ producto.nombre }}" style="max-width: 300px; height: auto; border-radius: 10px;">
-                {% else %}
-                    <img src="{{ url_for('static', filename='images/default.jpg') }}" alt="Imagen no disponible" style="max-width: 300px; height: auto; border-radius: 10px;">
-                {% endif %}
-            </li>
-        {% endfor %}
-    </ul>
-</body>
-</html>
+{% extends 'base.html' %}
+
+{% block head %}
+Lista de Productos
+{% endblock %}
+
+{% block body %}
+<h1>Lista de Productos</h1>
+<ul>
+    {% for producto in productos %}
+        <li>
+            <h2>{{ producto.nombre }}</h2>
+            <p>{{ producto.descripcion }}</p>
+            <p>Precio: ${{ producto.precio }}</p>
+            <p>Categoría: {{ producto.categoria }}</p>
+            <p>Stock: {{ producto.stock }}</p>
+            {% if producto.imagen %}
+                <img src="{{ url_for('static', filename=producto.imagen) }}" alt="{{ producto.nombre }}" style="max-width: 300px; height: auto; border-radius: 10px;">
+            {% else %}
+                <img src="{{ url_for('static', filename='images/default.jpg') }}" alt="Imagen no disponible" style="max-width: 300px; height: auto; border-radius: 10px;">
+            {% endif %}
+        </li>
+    {% endfor %}
+</ul>
+{% endblock %}
