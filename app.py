@@ -1,6 +1,6 @@
-from flask import Flask, render_template,jsonify
-from flask_sqlalchemy import SQLAlchemy
-import mariadb
+from flask import Flask, render_template,jsonify # type: ignore
+from flask_sqlalchemy import SQLAlchemy # type: ignore
+import mariadb # type: ignore
 
 app = Flask(__name__)
 
