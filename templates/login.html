@@ -6,6 +6,7 @@
   <title>BoriSnacks - login</title>
 </head>
 <body>
+  <h1>Log in de Usuario </h1>
   <form action="/login" method="POST">
     <label for="correo">Correo Electrónico:</label>
     <input type="email" id="correo" name="correo" required>
@@ -19,6 +20,12 @@
   </form>
 
   <p>¿No tienes cuenta? <a href="/registro">Regístrate aquí</a></p>
+
+  {% if 'user_id' in session %}
+  <form action="/logout" method="GET">
+    <button type="submit">Cerrar Sesión</button>
+  </form>
+  {% endif %}
 
   {% with messages = get_flashed_messages(with_categories=true) %}
     {% if messages %}
