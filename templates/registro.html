@@ -1,12 +1,13 @@
-{% extends 'base.html' %}
-
-{% block head %}
-<h1>Registro de Usuario</h1>
-{% endblock %}
-
-
-{% block body %}
-<form action="/registro" method="POST">
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>BoriSnacks - Regístrate</title>
+</head>
+<body>
+  <h1>Registro de Usuario</h1>
+  <form action="/registro" method="POST">
     <label for="nombre">Nombre:</label>
     <input type="text" id="nombre" name="nombre" required>
     <br>
@@ -24,5 +25,6 @@
     <br>
 
     <button type="submit">Registrarse</button>
-</form>
-{% endblock %}
+  </form>
+</body>
+</html>
