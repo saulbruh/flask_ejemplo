@@ -12,19 +12,24 @@
     <a href="{{ url_for('index') }}">
       <img src="{{ url_for('static', filename='images/borisnacks.png') }}" alt="Logo" class="navbar-logo">
     </a>
-    <ul>
-      {% if session.user_id %}
-        <li class="user-greeting">Hola, {{ session.user_name }}</li>
-      {% endif %}
 
-      <li><a href="{{ url_for('about') }}" class="{% if request.endpoint == 'about' %}active{% endif %}">About Us</a></li>
+    {% if session.user_id %}
+        <p class="user-greeting">Hola, {{ session.user_name }}</p>
+    {% endif %}
 
-      <li><a href="{{ url_for('registro') }}" class="{% if request.endpoint == 'registro' %}active{% endif %}">Registro</a></li>
+    <ul class="navbar-items">
+      <li><a href="{{ url_for('about') }}" class="{% if request.endpoint == 'about' %}active{% endif %} active">
+        <ion-icon name="people"></ion-icon>
+      </a></li>
 
-      <li><a href="{{ url_for('login') }}" class="{% if request.endpoint == 'login' %}active{% endif %}">Login</a></li>
+      <!-- <li><a href="{{ url_for('registro') }}" class="{% if request.endpoint == 'registro' %}active{% endif %}">Registro</a></li> -->
+
+      <li><a href="{{ url_for('login') }}" class="{% if request.endpoint == 'login' %}active{% endif %} active"><ion-icon name="log-in"></ion-icon></a></li>
     </ul>
   </nav>
   {% block body %}{% endblock %}
   <script src="{{ url_for('static', filename='scripts/script.js') }}"></script>
+  <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
+  <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
 </body>
 </html>
