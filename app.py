@@ -80,7 +80,8 @@ def login():
 @app.route('/logout')
 def logout():
     session.pop('user_id', None)  # Eliminar usuario de la sesión
-    return redirect(url_for('login'))
+    flash("Has cerrado sesión exitosamente", "info")  # Mensaje de confirmación
+    return redirect(request.referrer or url_for('login'))  # Redirigir a la página anterior o a login si no hay referencia
 
 @app.route('/about')
 def about():

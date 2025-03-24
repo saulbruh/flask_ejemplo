@@ -17,8 +17,18 @@
   margin-left: auto; /* Empuja los elementos a la derecha */
 }
 
+.nombreLogout {
+  /* display: flex; */
+  justify-content: space-between;
+  /* margin-left: auto; */
+}
+
 .navbar-items ion-icon {
   font-size: 30px; /* Ajusta este valor según sea necesario */
+}
+
+.buttons {
+  padding: 20px;
 }
 
 .active {

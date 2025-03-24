@@ -8,23 +8,47 @@
   {% block head %}{% endblock %}
 </head>
 <body>
+{% with messages = get_flashed_messages(with_categories=true) %}
+  {% if messages %}
+    {% for category, message in messages %}
+      <div class="alert alert-{{ category }} fade show" role="alert">
+        {{ message }}
+      </div>
+    {% endfor %}
+  {% endif %}
+{% endwith %}
+
+<script>
+  setTimeout(() => {
+    let alerts = document.querySelectorAll('.alert');
+    alerts.forEach(alert => {
+      alert.classList.remove('show');
+      alert.classList.add('fade');
+      setTimeout(() => alert.remove(), 500);
+    });
+  }, 3000);  // Desaparece después de 3 segundos
+</script>
+
   <nav class="navbar">
     <a href="{{ url_for('index') }}">
       <img src="{{ url_for('static', filename='images/borisnacks.png') }}" alt="Logo" class="navbar-logo">
     </a>
 
     {% if session.user_id %}
+      <div class="nombreLogout">
         <p class="user-greeting">Hola, {{ session.user_name }}</p>
+        <p><a href="{{ url_for('logout') }}" class="{% if request.endpoint == 'logout' %}active{% endif %} active">Logout</a></p>
+      </div>
     {% endif %}
 
     <ul class="navbar-items">
-      <li><a href="{{ url_for('about') }}" class="{% if request.endpoint == 'about' %}active{% endif %} active">
+      <li><a href="{{ url_for('about') }}" class="{% if request.endpoint == 'about' %}active{% endif %} active buttons">
         <ion-icon name="people"></ion-icon>
       </a></li>
 
       <!-- <li><a href="{{ url_for('registro') }}" class="{% if request.endpoint == 'registro' %}active{% endif %}">Registro</a></li> -->
 
-      <li><a href="{{ url_for('login') }}" class="{% if request.endpoint == 'login' %}active{% endif %} active"><ion-icon name="log-in"></ion-icon></a></li>
+      <li><a href="{{ url_for('login') }}" class="{% if request.endpoint == 'login' %}active{% endif %} active buttons"><ion-icon name="log-in"></ion-icon></a></li>
     </ul>
   </nav>
   {% block body %}{% endblock %}
