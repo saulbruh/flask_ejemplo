@@ -7,6 +7,22 @@
   {% block head %}{% endblock %}
 </head>
 <body>
+  <nav class="navbar">
+    <a href="{{ url_for('index') }}">
+      <img src="{{ url_for('static', filename='images/borisnacks.png') }}" alt="Logo" class="navbar-logo">
+    </a>
+    <ul>
+      {% if session.user_id %}
+        <li class="user-greeting">Hola, {{ session.user_name }}</li>
+      {% endif %}
+
+      <li><a href="{{ url_for('about') }}" class="{% if request.endpoint == 'about' %}active{% endif %}">About Us</a></li>
+
+      <li><a href="{{ url_for('registro') }}" class="{% if request.endpoint == 'registro' %}active{% endif %}">Registro</a></li>
+
+      <li><a href="{{ url_for('login') }}" class="{% if request.endpoint == 'login' %}active{% endif %}">Login</a></li>
+    </ul>
+  </nav>
   {% block body %}{% endblock %}
   <script src="{{ url_for('static', filename='scripts/script.js') }}"></script>
 </body>

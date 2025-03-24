@@ -1,6 +1,6 @@
-from flask import Flask, render_template,request, redirect, url_for, jsonify, session, flash # type: ignore
-from flask_sqlalchemy import SQLAlchemy # type: ignore
-import mariadb # type: ignore
+from flask import Flask, render_template, request, redirect, url_for, jsonify, session, flash  # type: ignore
+from flask_sqlalchemy import SQLAlchemy  # type: ignore
+import mariadb  # type: ignore
 import hashlib
 
 app = Flask(__name__)
@@ -58,15 +58,16 @@ def login():
         cursor = conn.cursor()
 
         # Obtener la contraseña almacenada de la base de datos
-        cursor.execute("SELECT id, hashed_password FROM usuarios WHERE correo_electronico = ?", (correo,))
+        cursor.execute("SELECT id, nombre, hashed_password FROM usuarios WHERE correo_electronico = ?", (correo,))
         user = cursor.fetchone()
         conn.close()
 
         if user:
-            usuario_id, hashed_password = user
+            usuario_id, usuario_nombre, hashed_password = user
             # Comparar la contraseña ingresada con la almacenada
             if contraseña == hashed_password:
                 session['user_id'] = usuario_id  # Guardar usuario en sesión
+                session['user_name'] = usuario_nombre  # Guardar nombre en sesión
                 flash("Inicio de sesión exitoso", "success")  # Mensaje de éxito
                 return redirect(url_for('index'))
             else:
@@ -81,6 +82,9 @@ def logout():
     session.pop('user_id', None)  # Eliminar usuario de la sesión
     return redirect(url_for('login'))
 
+@app.route('/about')
+def about():
+    return render_template('about.html')
 
 #Conexion a MariaDB sin ORM
 def get_db_connection():
