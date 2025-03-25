@@ -34,3 +34,72 @@
 .active {
   color: inherit; /* Mantiene el color original del enlace */
 }
+
+.tarjetas {
+  display: flex;
+  
+}
+
+.tarjeta {
+  padding: 20px;
+}
+
+.tarjeta-producto {
+  display: flex;
+  flex-direction: column;
+  background-color: #dedddd77;
+  padding: 20px;
+  border-radius: 12px;
+  box-shadow: 4px 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+.product-buttons {
+  margin-top: 10px;
+  display: flex;
+  gap: 10px;
+  margin-left: auto;
+}
+
+.buttons-carro {
+  margin-left: auto;
+}
+
+img {
+  width: 180px; /* Ajusta el tamaño según prefieras */
+  height: auto;
+  border-radius: 12px;
+}
+
+.btn-buy {
+  background-color: #28a745;
+  color: white;
+  border: none;
+  padding: 10px 15px;
+  border-radius: 8px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.btn-buy:hover {
+  background-color: #218838;
+}
+
+.btn-cart {
+  background-color: #ffc107;
+  color: black;
+  border: none;
+  padding: 10px 20px 7px 20px;
+  border-radius: 8px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.btn-cart:hover {
+  background-color: #e0a800;
+}
+
+.btn-cart ion-icon {
+  font-size: 18px;
+}
