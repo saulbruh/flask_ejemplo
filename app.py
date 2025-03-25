@@ -1,5 +1,6 @@
 from flask import Flask, render_template, request, redirect, url_for, jsonify, session, flash  # type: ignore
 from flask_sqlalchemy import SQLAlchemy  # type: ignore
+from werkzeug.security import generate_password_hash, check_password_hash
 import mariadb  # type: ignore
 import hashlib
 
@@ -30,7 +31,7 @@ def registro():
         hashed_password = request.form['contraseña']
 
         # Hashear la contraseña antes de almacenarla
-        #hashed_password = hashlib.sha256(hashed_password.encode()).hexdigest()
+        hashed_password = generate_password_hash(hashed_password)
 
         conn = get_db_connection()
         cursor = conn.cursor()
@@ -65,7 +66,7 @@ def login():
         if user:
             usuario_id, usuario_nombre, hashed_password = user
             # Comparar la contraseña ingresada con la almacenada
-            if contraseña == hashed_password:
+            if check_password_hash(hashed_password, contraseña):
                 session['user_id'] = usuario_id  # Guardar usuario en sesión
                 session['user_name'] = usuario_nombre  # Guardar nombre en sesión
                 flash("Inicio de sesión exitoso", "success")  # Mensaje de éxito
