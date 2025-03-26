@@ -22,6 +22,7 @@ def index():
 
     return render_template('index.html', productos=productos_json)
 
+
 @app.route('/registro', methods=['GET', 'POST'])
 def registro():
     if request.method == 'POST':
@@ -87,6 +88,14 @@ def logout():
 @app.route('/about')
 def about():
     return render_template('about.html')
+
+@app.route('/usuario')
+def usuario():
+    if 'user_name' in session:
+        return render_template('user.html', usuario=session['user_name'])
+    else:
+        flash("Debes iniciar sesión para acceder a esta página.", "warning")
+        return redirect(url_for('login'))
 
 #Conexion a MariaDB sin ORM
 def get_db_connection():
