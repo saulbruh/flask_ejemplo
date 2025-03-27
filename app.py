@@ -88,7 +88,7 @@ def logout():
 def about():
     return render_template('about.html')
 
-@app.route('/usuario')
+@app.route('/perfil')
 def usuario():
     if 'user_name' in session:
         return render_template('user.html', usuario=session['user_name'])
