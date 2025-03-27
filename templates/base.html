@@ -34,14 +34,6 @@
       <img src="{{ url_for('static', filename='images/borisnacks.png') }}" alt="Logo" class="navbar-logo">
     </a>
 
-    {% if session.user_id %}
-      <div class="nombreLogout">
-        <p class="user-greeting">Hola, {{ session.user_name }}</p>
-        <p><a href="{{ url_for('logout') }}" 
-          class="{% if request.endpoint == 'logout' %}active{% endif %} active" 
-          id="logout-link">Logout</a></p>
-      </div>
-    {% endif %}
 
     <ul class="navbar-items">
       <li><a href="{{ url_for('carrito') }}" class="{% if request.endpoint == 'carrito' %}active{% endif %} active buttons">
@@ -54,6 +46,18 @@
     </ul>
   </nav>
   {% block body %}
+    <button id="delete-account-btn" class="delete-button">Borrar Cuenta</button>
+
+    <div id="delete-popup" class="popup">
+        <p>¿Estás seguro de que deseas eliminar tu cuenta? Esta acción no se puede deshacer.</p>
+        <input type="password" id="delete-password" placeholder="Ingresa tu contraseña">
+        <button id="confirm-delete">Sí, eliminar</button>
+        <button id="cancel-delete">Cancelar</button>
+    </div>
+
+    <form id="delete-form" method="POST" action="{{ url_for('delete_account') }}" style="display: none;">
+        <input type="hidden" name="contraseña" id="hidden-password">
+    </form>
   {% endblock %}
   <footer>
     <li><a href="{{ url_for('about') }}" class="{% if request.endpoint == 'about' %}active{% endif %} active buttons">

@@ -26,6 +26,26 @@
   <form action="/logout" method="GET">
     <button type="submit">Cerrar Sesión</button>
   </form>
+  <button id="delete-account-btn" class="delete-button">Borrar Cuenta</button>
+
+  <!-- Primer pop-up de confirmación -->
+  <div id="confirm-popup" class="popup" style="display: none;">
+      <p>¿Estás seguro de que deseas eliminar tu cuenta? Esta acción no se puede deshacer.</p>
+      <button id="confirm-yes">Sí, eliminar</button>
+      <button id="confirm-cancel">Cancelar</button>
+  </div>
+
+  <!-- Segundo pop-up para ingresar la contraseña -->
+  <div id="password-popup" class="popup" style="display: none;">
+      <p>Por favor, ingresa tu contraseña para confirmar:</p>
+      <input type="password" id="delete-password" placeholder="Ingresa tu contraseña">
+      <button id="submit-delete">Eliminar cuenta</button>
+      <button id="password-cancel">Cancelar</button>
+  </div>
+
+  <form id="delete-form" method="POST" action="{{ url_for('delete_account') }}" style="display: none;">
+      <input type="hidden" name="contraseña" id="hidden-password">
+  </form>
   {% endif %}
 
   {% with messages = get_flashed_messages(with_categories=true) %}

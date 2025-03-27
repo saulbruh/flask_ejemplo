@@ -46,7 +46,7 @@ def registro():
         finally:
             conn.close()
 
-        return redirect(url_for('index'))
+        return redirect(url_for('login'))
 
     return render_template('registro.html')
 
@@ -105,6 +105,32 @@ def carrito():
         session['next'] = request.path  # Guardar la URL actual antes de redirigir
         flash("Debes iniciar sesión para acceder al carrito.", "warning")
         return redirect(url_for('login'))
+
+@app.route('/delete_account', methods=['POST'])
+def delete_account():
+    if 'user_id' not in session:
+        flash("Debes iniciar sesión para realizar esta acción.", "warning")
+        return redirect(url_for('login'))
+
+    contraseña = request.form['contraseña']
+
+    conn = get_db_connection()
+    cursor = conn.cursor()
+
+    cursor.execute("SELECT hashed_password FROM usuarios WHERE id = ?", (session['user_id'],))
+    user = cursor.fetchone()
+
+    if user and check_password_hash(user[0], contraseña):
+        cursor.execute("DELETE FROM usuarios WHERE id = ?", (session['user_id'],))
+        conn.commit()
+        conn.close()
+        session.clear()
+        flash("Cuenta eliminada exitosamente.", "success")
+        return redirect(url_for('index'))
+    else:
+        conn.close()
+        flash("Contraseña incorrecta. No se eliminó la cuenta.", "danger")
+        return redirect(url_for('usuario'))
 
 #Conexion a MariaDB sin ORM
 def get_db_connection():
