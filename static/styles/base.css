@@ -38,7 +38,7 @@ body {
   /* margin-left: auto; */
 }
 
-.navbar-items ion-icon {
+.navbar-items i {
   font-size: 30px; /* Ajusta este valor según sea necesario */
   /* color: black; */
 }
@@ -123,6 +123,6 @@ img {
   background-color: #e0a800;
 }
 
-.btn-cart ion-icon {
+.btn-cart i {
   font-size: 18px;
 }

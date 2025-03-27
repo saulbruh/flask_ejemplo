@@ -59,21 +59,20 @@ def login():
         conn = get_db_connection()
         cursor = conn.cursor()
 
-        # Obtener la contraseña almacenada de la base de datos
         cursor.execute("SELECT id, nombre, hashed_password FROM usuarios WHERE correo_electronico = ?", (correo,))
         user = cursor.fetchone()
         conn.close()
 
         if user:
             usuario_id, usuario_nombre, hashed_password = user
-            # Comparar la contraseña ingresada con la almacenada
             if check_password_hash(hashed_password, contraseña):
-                session['user_id'] = usuario_id  # Guardar usuario en sesión
-                session['user_name'] = usuario_nombre  # Guardar nombre en sesión
-                flash("Inicio de sesión exitoso", "success")  # Mensaje de éxito
-                return redirect(url_for('index'))
+                session['user_id'] = usuario_id
+                session['user_name'] = usuario_nombre
+                flash("Inicio de sesión exitoso", "success")
+                next_page = session.pop('next', url_for('index'))  # Obtener la página almacenada o redirigir a index
+                return redirect(next_page)
             else:
-                flash("Error: Contraseña incorrecta", "danger")  
+                flash("Error: Contraseña incorrecta", "danger")
         else:
             flash("Error: Usuario no encontrado", "danger")
 
@@ -83,7 +82,7 @@ def login():
 def logout():
     session.clear() # Limpia toda la sesión
     flash("Has cerrado sesión exitosamente", "info")  # Mensaje de confirmación
-    return redirect(request.referrer or url_for('login'))  # Redirigir a la página anterior o a login si no hay referencia
+    return redirect(url_for('index'))  # Redirigir a la página de inicio
 
 @app.route('/about')
 def about():
@@ -94,7 +93,17 @@ def usuario():
     if 'user_name' in session:
         return render_template('user.html', usuario=session['user_name'])
     else:
+        session['next'] = request.path  # Guardar la URL actual antes de redirigir
         flash("Debes iniciar sesión para acceder a esta página.", "warning")
+        return redirect(url_for('login'))
+
+@app.route('/carrito')
+def carrito():
+    if 'user_name' in session:
+        return render_template('carrito.html', usuario=session['user_name'])
+    else:
+        session['next'] = request.path  # Guardar la URL actual antes de redirigir
+        flash("Debes iniciar sesión para acceder al carrito.", "warning")
         return redirect(url_for('login'))
 
 #Conexion a MariaDB sin ORM
